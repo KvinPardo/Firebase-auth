@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
+import Layout from "./components/Layout";
 import Navbar from "./components/Navbar";
 import RequireAuth from "./components/RequireAuth";
 import { UserContext } from "./context/UserProvider";
@@ -8,11 +9,10 @@ import Login from "./routes/Login";
 import Register from "./routes/Register";
 
 const App = () => {
+  const { user } = useContext(UserContext);
 
-  const { user } = useContext(UserContext)
-
-  if(user === false) {
-    return <p>Loading...</p>
+  if (user === false) {
+    return <p>Loading...</p>;
   }
 
   return (
@@ -28,8 +28,10 @@ const App = () => {
             </RequireAuth>
           }
         />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Layout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
       </Routes>
     </>
   );

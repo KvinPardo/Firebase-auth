@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 import FormError from "../components/FormError";
 import FormInput from "../components/FormInput";
+import Title from "../components/Title";
 
 import { UserContext } from "../context/UserProvider";
 import errorresFirebase from "../utils/errorresFirebase";
@@ -28,41 +30,42 @@ const Login = () => {
       // console.log("usuario creado");
       navegate("/");
     } catch (error) {
-      console.log(error.code);
-      setError("firebase", {
-        message: errorresFirebase(error.code),
-      });
+      const { code, message } = errorresFirebase(error.code);
+      setError(code, { message });
     }
   };
 
   return (
     <>
-      <h1>Login</h1>
-      <FormError error={errors.firebase} />
+      <Title text="Inicio de Sesión" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
+          label="Ingresa tu Correo"
           type="email"
           placeholder="Ingrese Email"
           {...register("email", {
             required,
             pattern: patternEmail,
           })}
+          error={errors.email}
         >
           <FormError error={errors.email} />
         </FormInput>
 
         <FormInput
+          label="Ingrese su Contraseña"
           type="password"
           placeholder="Ingrese Contraseña"
           {...register("password", {
             minLength,
             validate: validateTrim,
           })}
+          error={errors.password}
         >
           <FormError error={errors.password} />
         </FormInput>
 
-        <button type="submit">Iniciar Sesión</button>
+        <Button text="Iniciar Sesión" type="submit"/>
       </form>
     </>
   );

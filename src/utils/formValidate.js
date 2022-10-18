@@ -4,11 +4,11 @@ const formValidate = (getValues) => {
     return {
         required: {
             value: true,
-            message: "Campo Obligatorio",
+            message: "Campo obligatorio",
         },
         patternEmail: {
-            value: /[a-z0-9]+(\._a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/,
-            message: "Formato incorrecto",
+            value: /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/,
+            message: "Formato de email incorrecto",
         },
         minLength: {
             value: 6,
@@ -17,19 +17,17 @@ const formValidate = (getValues) => {
         validateTrim: {
             trim: (v) => {
                 if (!v.trim()) {
-                    return "No seas Payaso, escribe algo";
+                    return "No seas 🤡, escribe algo";
                 }
                 return true;
             },
         },
-        validateEquals(getValues) {
+        validateEquals(value) {
             return {
-                equals: (v) =>
-                    v === getValues("password") ||
-                    "Las contraseñas son distintas",
-            }
+                equals: (v) => v === value || "No coinciden las contraseñas",
+            };
         },
-    }
+    };
 }
 
 export default formValidate
